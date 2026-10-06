@@ -1,6 +1,6 @@
 // Lab 4
-// Student name:
-// Student number:
+// Student name: Zeren Ulutas
+// Student number: 18622894
 
 using System;
 using System.Collections.Generic;
@@ -21,7 +21,6 @@ Console.WriteLine("CPEN223 Lab 4");
 // Console.WriteLine($"Expected: CGT -> 1, Actual: CGT -> {counts["CGT"]}");
 // Console.WriteLine($"Expected: GTC -> 1, Actual: GTC -> {counts["GTC"]}");
 // Console.WriteLine($"Expected: TCG -> 1, Actual: TCG -> {counts["TCG"]}");
-
 
 //
 // bool differ = GenomeAnalyzer.SamplesDiffer("AAAA", "TTTT", 2, 3);
@@ -44,6 +43,7 @@ public static class GenomeAnalyzer
         {
             throw new ArgumentException();
         }
+
         for (int index = 0; index <= sequence.Length - k; index++)
         {
             string kmers = sequence.Substring(index, k);
@@ -98,22 +98,47 @@ public static class GenomeAnalyzer
 
     public static List<string> MostChangedKMers(string reference, string sample, int k)
     {
-        // throw new NotImplementedException();
+        if (reference == null || sample == null || k <= 0)
+        {
+            throw new ArgumentException();
+        }
+
         Dictionary<string, int> allChanges = CompareProfiles(reference, sample, k);
+        List<string> mostMers = new();
 
         int maxVal = 0;
 
         foreach (string entry in allChanges.Keys)
         {
-            if (Math.Abs(allChanges[entry]) > maxVal)
+            if (Math.Abs(allChanges[entry]) == maxVal)
             {
-                maxVal = allChanges[entry];
+                mostMers.Add(entry);
+            }
+
+            else if (Math.Abs(allChanges[entry]) > maxVal)
+            {
+                maxVal = Math.Abs(allChanges[entry]);
             }
         }
+        return mostMers;
     }
 
     public static bool SamplesDiffer(string reference, string sample, int k, int threshold)
     {
-        throw new NotImplementedException();
+        if (reference == null || sample == null || k <= 0 || threshold < 0)
+        {
+            throw new ArgumentException();
+        }
+        
+        Dictionary<string, int> allChanges = CompareProfiles(reference, sample, k);
+        
+        foreach (string entry in allChanges.Keys)
+        {
+            if (Math.Abs(allChanges[entry]) >= threshold)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
