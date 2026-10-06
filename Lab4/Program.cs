@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 Console.WriteLine("CPEN223 Lab 4");
 
@@ -26,6 +27,13 @@ Console.WriteLine("CPEN223 Lab 4");
 // bool differ = GenomeAnalyzer.SamplesDiffer("AAAA", "TTTT", 2, 3);
 // Console.WriteLine($"Expected: True, Actual: {differ}");
 
+//List<string> counts = GenomeAnalyzer.MostChangedKMers("ACGACG", "ACGTCG", 3);
+//Console.WriteLine($"Expected: CGT GTC TCG, Actual: {counts}");
+
+List<string> counts = GenomeAnalyzer.MostChangedKMers("ACGACG", "ACGTCG", 3);
+
+// Use string.Join to format the list elements
+Console.WriteLine($"Expected: CGT GTC TCG, Actual: {string.Join(" ", counts)}");
 
 //end Testing code
 
@@ -114,10 +122,11 @@ public static class GenomeAnalyzer
             {
                 mostMers.Add(entry);
             }
-
             else if (Math.Abs(allChanges[entry]) > maxVal)
             {
                 maxVal = Math.Abs(allChanges[entry]);
+                mostMers.Clear();
+                mostMers.Add(entry);
             }
         }
         return mostMers;
