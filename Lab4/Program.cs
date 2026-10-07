@@ -117,18 +117,12 @@ public static class GenomeAnalyzer
                 {
                     change[mers1] = diff;
                 }
-                // If the difference between the values is zero, this indicateed that they are identical. In this case, the function should
-                // return an empty dictionary.
+                // If the sample sequence doesn't contain that key, assign the negative of its existing value in the reference sequence
+                // since "change = count in sample - count in reference".
                 else
                 {
                     change[mers1] = -refMers[mers1];
                 }
-            }
-            // If the sample sequence doesn't contain that key, assign the negative of its existing value in the reference sequence
-            // since "change = count in sample - count in reference".
-            else
-            {
-                change[mers1] = -refMers[mers1];
             }
         }
 
