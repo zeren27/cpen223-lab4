@@ -109,9 +109,9 @@ public static class GenomeAnalyzer
         {
             // Check if sample contains the key that reference contains. If so, make a new variable to store the value differences between
             // the sequnces. 
-            if (sampMers.ContainsKey(mers1))
+            if (sampMers.TryGetValue(mers1, out int sampCount))
             {
-                int diff = sampMers[mers1] - refMers[mers1];
+                int diff = sampCount - refMers[mers1];
                 // Only store non-zero differences in the dictionary.
                 if (diff != 0 )
                 {
@@ -121,7 +121,7 @@ public static class GenomeAnalyzer
                 // return an empty dictionary.
                 else
                 {
-                    return change;
+                    change[mers1] = -refMers[mers1];
                 }
             }
             // If the sample sequence doesn't contain that key, assign the negative of its existing value in the reference sequence
